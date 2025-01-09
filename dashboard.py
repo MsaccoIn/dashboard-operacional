@@ -2,14 +2,17 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+import os
 
 st.title("Dashboard Operacional")
 
-uploaded_file = st.file_uploader("Carregue o arquivo consolidado", type=["xlsx"])
+# Caminho para o arquivo base de dados consolidado
+file_path = "Base de dados Resumo_Operacional_Com_Graficos.xlsx"
 
-if uploaded_file:
+# Verifica se o arquivo existe
+if os.path.exists(file_path):
     # Lê todas as abas do Excel
-    sheets = pd.read_excel(uploaded_file, sheet_name=None)
+    sheets = pd.read_excel(file_path, sheet_name=None)
 
     # Seleção de abas
     sheet_names = list(sheets.keys())
@@ -37,3 +40,5 @@ if uploaded_file:
         ax.set_ylabel("Sacas Entregues")
         ax.set_xlabel("Mês")
         st.pyplot(fig)
+else:
+    st.error("O arquivo base de dados consolidado não foi encontrado no repositório.")
